@@ -4,12 +4,13 @@ import {chunk, first, indexOf} from 'lodash';
 import {cli, command, Option, $} from 'shell-scripter';
 import {Diagnostic, DiagnosticCategory, Project, SourceFile, ts} from 'ts-morph';
 
+// This error is excluded by our .gitattributes filters
 const a: string = 123;
-
 class Foo {
     foo() {
         const b: {a?: number} = {};
         const c = b.a;
+        // This error will *not* be excluded
         console.log(c.toFixed());
 
     }
@@ -56,9 +57,6 @@ const cmd = command({
         let diagnostics = project.getPreEmitDiagnostics();
         diagnostics = diagnostics.filter(diagnostic => {
             const newCategory = filter(diagnostic);
-            if(newCategory as any as DiagnosticCategory !== diagnostic.getCategory()) {
-                console.log(`reclassifying diagnostic ${diagnostic.getMessageText()}: ${diagnostic.getCategory()} --> ${ newCategory }`);
-            }
             if(newCategory === ReclassifiedDiagnosticCategory.Ignore) return false;
             diagnostic.compilerObject.category = newCategory as any as DiagnosticCategory;
             return true;

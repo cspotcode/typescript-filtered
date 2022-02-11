@@ -1,23 +1,29 @@
-```gitattributes
+# typescript-filtered
 
-** tsdefine_decorator_errors=123,456,789
-** TSCONDITION_GROUPNAME=123,OTHERGROUPNAME
+A CLI similar to `tsc` but that can filter out certain diagnostics per-directory, per-file, and per-diagnostic code.
 
-# Suppress decorator-related rules in these files
-src/** -ts_decorator_errors
-src/high-quality-code ts_decorator_errors
+```
+npx cspotcode/typescript-with-diagnostic-filters --help
+npx cspotcode/typescript-with-diagnostic-filters --project ./tsconfig.json --noEmit
 ```
 
+Filters are declared in `.gitattributes`.
+
 ```gitattributes
-# Set to get all diagnostics, like vanilla TSC
+# .gitattributes example
+
+# Set to get all diagnostics, like vanilla TSC.  This is the default
 ** ts=all
 # Set to get only errors, no warnings
 test/spec/** ts=error
-# Set to suppress all diagnostics for this file
+# Set to suppress all diagnostics for this file (set to "none" or use minus sign)
 test/spec/messy-file.ts ts=none
+test/spec/messy-file.ts -ts
+
 # Set to suppress diagnostic code 123 (note the minus sign, *or* set the value to "ignore")
 src/codegen/** -ts123
 src/codegen/** ts123=ignore
+
 # To demote an error to a warning
 src/codegen/** ts123=warn
 
