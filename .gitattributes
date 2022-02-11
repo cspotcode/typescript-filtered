@@ -1,0 +1,7 @@
+# ** ts=aswarnings -ts2322
+
+# Hide "is not assignable to"
+** -ts2322
+
+# Hide all errors from this file
+lots-of-errors.ts -ts

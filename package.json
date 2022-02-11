@@ -1,0 +1,14 @@
+{
+    "name": "typescript-filtered",
+    "version": "0.0.0",
+    "bin": "cli.ts",
+    "dependencies": {
+        "@swc/core": "^1.2.138",
+        "@types/lodash": "^4.14.178",
+        "@types/node": "^17.0.16",
+        "lodash": "^4.17.21",
+        "shell-scripter": "github:cspotcode/node-shell#230806e08576288d0a076c0db862fd2b7a1611b4",
+        "ts-morph": "^13.0.3",
+        "ts-node": "^10.5.0"
+    }
+}
