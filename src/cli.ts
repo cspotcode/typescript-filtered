@@ -74,8 +74,9 @@ const cmd = command({
         if(filteredDiagnostics.length) {
             if(noDiagnosticLogging) {
                 console.log(chalk.red(`Skipped logging ${filteredDiagnostics.length} diagnostics.`));
+            } else {
+                console.log(project.formatDiagnosticsWithColorAndContext(filteredDiagnostics));
             }
-            console.log(project.formatDiagnosticsWithColorAndContext(filteredDiagnostics));
         }
 
         const indent = '    ';
