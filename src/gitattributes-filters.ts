@@ -8,15 +8,14 @@ import { relative } from "path";
  * This file implements the .gitattributes filter provider.
  */
 
-export async function getFilterFromGitAttributes(allSourceFiles: SourceFile[], attrPrefix: string): Promise<ProjectFilters> {
+export async function getFilterFromGitAttributes(allFiles: string[], attrPrefix: string): Promise<ProjectFilters> {
     // Ask git for all relevant attributes
     const allGitAttrs = new Map<string, Map<string, string>>();
     $.verbose = false;
     const {stdout: gitToplevelStdout} = await $`git rev-parse --show-toplevel`;
     const gitRoot = gitToplevelStdout.trim();
     // exclude files outside of git's root directory.  It'll throw an error if we ask about them
-    const stdin = allSourceFiles
-        .map(sf => sf.getFilePath())
+    const stdin = allFiles
         .filter(path => !relative(gitRoot.trim(), path).startsWith('..'))
         .join('\0');
     const gitProcess = $`git check-attr -z --stdin --all`;
