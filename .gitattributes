@@ -1,7 +1,11 @@
 # ** ts=aswarnings -ts2322
 
 # Hide "is not assignable to"
-** -ts2322
+# ** -ts2322
 
 # Hide all errors from this file
 lots-of-errors.ts -ts
+
+src/cli.ts -ts1234
+
+example-* -ts2532 -ts1208 -ts2322

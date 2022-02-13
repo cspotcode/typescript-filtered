@@ -6,5 +6,11 @@
     },
     "compilerOptions": {
         // "module": "ESNext"
+        "lib": ["ESNext"],
+        "types": [],
+        "preserveConstEnums": true,
+        "isolatedModules": true,
+        "rootDir": "src",
+        "outDir": "dist"
     }
 }
