@@ -10,5 +10,8 @@
         "shell-scripter": "github:cspotcode/node-shell#230806e08576288d0a076c0db862fd2b7a1611b4",
         "ts-morph": "^13.0.3",
         "ts-node": "^10.5.0"
+    },
+    "devDependencies": {
+        "ts-expose-internals": "^4.5.5"
     }
 }
