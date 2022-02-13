@@ -49,11 +49,6 @@ const cmd = command({
         // Get a list of all source files
         const allSourceFiles = project.getSourceFiles();
 
-        // To implement a new filter provider, add it here
-        const filterers = [
-            new Filterer(await getFiltersFromGitAttributes(allSourceFiles, attrPrefix))
-        ];
-
         const shouldEmit = !(noEmit || project.getCompilerOptions().noEmit);
 
         if(shouldEmit) {
@@ -61,6 +56,17 @@ const cmd = command({
         }
 
         const diagnostics = project.getPreEmitDiagnostics();
+
+        const allFiles_ = new Set([
+            ...allSourceFiles.map(sf => sf.getFilePath() as string),
+            ...diagnostics.map(d => d.getSourceFile()?.getFilePath() as string).filter(v => v)
+        ]);
+
+        // To implement a new filter provider, add it here
+        const filterers = [
+            new Filterer(await getFiltersFromGitAttributes([...allFiles_], attrPrefix))
+        ];
+
         const filteredDiagnostics = diagnostics.filter(diagnostic => {
             for(const filterer of filterers) {
                 const newCategory = filterer.filter(diagnostic);
@@ -122,7 +128,7 @@ const cmd = command({
             throw new Error('not implemented yet');
         }
 
-        process.exit(filteredDiagnostics.length && !alwaysExitCodeZero ? 1 : 0);
+        return filteredDiagnostics.length && !alwaysExitCodeZero ? 1 : 0;
     }
 });
 
