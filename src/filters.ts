@@ -42,16 +42,19 @@ export class Filterer {
     filter(diagnostic: Diagnostic): ReclassifiedDiagnosticCategory {
         const {filters} = this;
         const path = diagnostic.getSourceFile()?.getFilePath();
-        if(!path) return diagnostic.getCategory() as any as ReclassifiedDiagnosticCategory;
+        let ret = diagnostic.getCategory() as any as ReclassifiedDiagnosticCategory;
+        if(!path) return ret;
         const _filter = filters.get(path);
-        if(!_filter) return diagnostic.getCategory() as any as ReclassifiedDiagnosticCategory;
-        const ret = classifyDiagnostic(diagnostic, _filter);
-        const summary = this.summary.files.getWithDefault(path);
+        if(_filter)
+            ret = classifyDiagnostic(diagnostic, _filter);
         const code = diagnostic.getCode();
-        if(ret === ReclassifiedDiagnosticCategory.Ignore) {
-            summary.ignoredCodes.set(code, (summary.ignoredCodes.get(code) ?? 0) + 1);
-        } else {
-            summary.raisedCodes.set(code, (summary.ignoredCodes.get(code) ?? 0) + 1);
+        const summary = this.summary.files.getWithDefault(path);
+        if(summary) {
+            if(ret === ReclassifiedDiagnosticCategory.Ignore) {
+                summary.ignoredCodes.set(code, (summary.ignoredCodes.get(code) ?? 0) + 1);
+            } else {
+                summary.raisedCodes.set(code, (summary.ignoredCodes.get(code) ?? 0) + 1);
+            }
         }
         return ret;
     }
