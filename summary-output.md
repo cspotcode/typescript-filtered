@@ -7,7 +7,7 @@ help.
 ```
 src/foo.ts
     Raised diagnostics: 5x TS3345, 10x TS4567
-    Ignored diagnostics: 5x TS3345, 10x TS4567
+    Ignored diagnostics: 1x TS4244, 11x TS0111
     Unnecessary ignore rules: None
 src/bar.ts
     Raised diagnostics: None
